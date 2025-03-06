@@ -41,5 +41,3 @@ Thumbs.db
 .idea/
 
 main-deploy.sh
-Dockerfile
-nginx.conf
