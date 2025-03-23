@@ -3,6 +3,7 @@
 import { Compass, X, Menu } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
+import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,8 +34,12 @@ function Navbar() {
               <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galleria</a>
               <a href="/contact" className="text-foreground/80 hover:text-foreground">Contacto</a>
               <Button>Reserva ahora!</Button>
+              {/* Placeholder para ThemeSwitch */}
+              <div className="h-9 w-9"></div>
             </div>
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center">
+              {/* Placeholder para ThemeSwitch */}
+              <div className="h-9 w-9 mr-2"></div>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
               </Button>
@@ -53,19 +58,22 @@ function Navbar() {
             <Compass className="h-8 w-8 text-primary" />
             <span className="ml-2 text-xl font-bold">Sirius</span>
           </div>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4">
             <a href="/" className="text-foreground/80 hover:text-foreground">Inicio</a>
             <a href="/services" className="text-foreground/80 hover:text-foreground">Servicios</a>
             <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galleria</a>
             <a href="/contact" className="text-foreground/80 hover:text-foreground">Contacto</a>
             <Button>Reserva ahora!</Button>
+            <ThemeSwitch />
           </div>
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
+            <ThemeSwitch />
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleMenu}
               aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+              className="ml-2"
             >
               {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -75,7 +83,7 @@ function Navbar() {
 
       {/* Menú móvil */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-64" : "max-h-0"
+        className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-80" : "max-h-0"
           }`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1 bg-background border-b">

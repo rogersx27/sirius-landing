@@ -1,12 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import Viewport from "next"
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@/components/Analytics/Analytics';
+import { Viewport } from 'next/dist/lib/metadata/types/extra-types';
 
 // Optimiza la carga de fuentes
 const inter = Inter({
@@ -59,13 +59,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
-  ],
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  minimumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  interactiveWidget: "resizes-visual"
 };
 
 interface RootLayoutProps {
