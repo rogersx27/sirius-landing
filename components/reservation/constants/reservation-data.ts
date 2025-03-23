@@ -1,6 +1,75 @@
 import { ReservationType, Activity, DateAvailability, AdditionalService, Coupon } from "../types"
 
-// Define available reservation types
+export const categorizeExperiences = () => {
+    const farmStays = [
+        {
+            id: "stay",
+            name: "Estancia en Granja",
+            basePrice: 150,
+            example: "Cabaña con vistas a la huerta",
+            features: ["Desayuno incluido", "Acceso a huerto", "Paseos guiados"]
+        },
+        {
+            id: "venue",
+            name: "Alquiler de Local",
+            basePrice: 2000,
+            example: "Granero restaurado para eventos",
+            features: ["Capacidad 150 personas", "Cocina equipada", "Estacionamiento"]
+        },
+        {
+            id: "team",
+            name: "Formación de Equipos",
+            basePrice: 200,
+            example: "Jornada de integración empresarial",
+            features: ["Actividades al aire libre", "Comida incluida", "Facilitador"]
+        }
+    ];
+
+    // Ejemplos de cursos y talleres con IDs únicos
+    const courses = [
+        {
+            id: "workshop-organic",
+            name: "Taller de Agricultura",
+            basePrice: 75,
+            example: "Cultivo de hortalizas orgánicas",
+            duration: "4 horas",
+            instructor: "María González, Ing. Agrónoma"
+        },
+        {
+            id: "culinary",
+            name: "Curso Culinario",
+            basePrice: 120,
+            example: "Del huerto a la mesa",
+            duration: "6 horas",
+            instructor: "Chef Carlos Martín"
+        },
+        {
+            id: "workshop-preserves",
+            name: "Taller de Conservas",
+            basePrice: 85,
+            example: "Elaboración de conservas",
+            duration: "3 horas",
+            instructor: "Ana Rodríguez, Especialista en conservas"
+        }
+    ];
+
+    return { farmStays, courses };
+};
+
+export const getDescriptionForType = (typeId) => {
+    const descriptions = {
+        stay: "Disfruta de una estancia tranquila en nuestra granja. Despertar con el canto de los pájaros y disfrutar del entorno natural.",
+        workshop: "Aprende técnicas de agricultura sostenible y jardinería orgánica con nuestros expertos agricultores.",
+        culinary: "Descubre los secretos de la cocina con ingredientes frescos cultivados en nuestra propia granja.",
+        team: "Fortalece los lazos de tu equipo con actividades divertidas y colaborativas en plena naturaleza.",
+        venue: "El lugar perfecto para celebrar tu evento especial en un entorno natural único y acogedor.",
+        "workshop-organic": "Aprende a cultivar hortalizas orgánicas y a mantener un huerto sostenible con nuestros expertos.",
+        "workshop-preserves": "Descubre cómo elaborar conservas caseras con frutas y verduras frescas de la temporada."
+    };
+
+    return descriptions[typeId] || "";
+};
+
 export const reservationTypes: ReservationType[] = [
     { id: "stay", name: "Estancia en Granja", basePrice: 150 },
     { id: "workshop", name: "Taller", basePrice: 75 },
@@ -9,7 +78,6 @@ export const reservationTypes: ReservationType[] = [
     { id: "venue", name: "Alquiler de Local", basePrice: 2000 },
 ]
 
-// Define activities based on reservation type
 export const activitiesByType: Record<string, Activity[]> = {
     stay: [
         { id: "standard", name: "Habitación Estándar", priceMultiplier: 1 },
