@@ -1,5 +1,109 @@
 import { ReservationType, Activity, DateAvailability, AdditionalService, Coupon } from "../types"
 
+"use client"
+
+// Categorías de experiencias
+export const experienceCategories = [
+    {
+        id: "stay",
+        label: "Estancias en la Granja"
+    },
+    {
+        id: "course",
+        label: "Cursos y Talleres"
+    }
+];
+
+// Iconos para cada tipo de experiencia
+const icons = {
+    stay: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+
+    venue: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"></rect><line x1="16" y1="3" x2="16" y2="7"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line></svg>`,
+
+    team: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+
+    agriculture: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+
+    culinary: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>`,
+
+    preserves: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 10a7 7 0 0 0 14 0"></path><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="9" r="1"></circle><path d="M12 2a12.2 12.2 0 0 0-2 6 10 10 0 0 1-2 7"></path><path d="M12 2c.7 2.7 1.7 4.5 2 6a10 10 0 0 0 2 7"></path><path d="M2 18h20"></path></svg>`,
+};
+
+// Opciones de experiencias
+export const experienceOptions = [
+    // Estancias
+    {
+        value: "stay",
+        label: "Estancia en Granja",
+        icon: icons.stay,
+        category: "stay",
+        description: "Disfruta de una estancia tranquila en nuestra granja."
+    },
+    {
+        value: "venue",
+        label: "Alquiler de Local",
+        icon: icons.venue,
+        category: "stay",
+        description: "El lugar perfecto para celebrar tu evento especial."
+    },
+    {
+        value: "team",
+        label: "Formación de Equipos",
+        icon: icons.team,
+        category: "stay",
+        description: "Fortalece los lazos de tu equipo con actividades en la naturaleza."
+    },
+
+    // Cursos y Talleres
+    {
+        value: "workshop-organic",
+        label: "Taller de Agricultura",
+        icon: icons.agriculture,
+        category: "course",
+        description: "Aprende técnicas de cultivo orgánico con nuestros expertos."
+    },
+    {
+        value: "culinary",
+        label: "Curso Culinario",
+        icon: icons.culinary,
+        category: "course",
+        description: "Descubre los secretos de la cocina con ingredientes frescos."
+    },
+    {
+        value: "workshop-preserves",
+        label: "Taller de Conservas",
+        icon: icons.preserves,
+        category: "course",
+        description: "Aprende a elaborar conservas y encurtidos tradicionales."
+    }
+];
+
+// Textos de ayuda por categoría
+export const helpTextByCategory = {
+    stay: "Todas las estancias incluyen desayuno y acceso a las áreas comunes de la granja.",
+    course: "Los cursos incluyen todos los materiales necesarios y un almuerzo orgánico."
+};
+
+// Método para obtener opciones por categoría
+export const getOptionsByCategory = (categoryId) => {
+    return experienceOptions.filter(option => option.category === categoryId);
+};
+
+// Método para obtener una opción por su valor
+export const getOptionByValue = (value) => {
+    return experienceOptions.find(option => option.value === value);
+};
+
+// Asociaciones entre opciones y actividades
+export const optionToActivitiesMap = {
+    "stay": ["standard", "deluxe", "suite"],
+    "venue": ["wedding", "corporate", "private"],
+    "team": ["outdoor", "cooking", "problem"],
+    "workshop-organic": ["gardening", "farming"],
+    "culinary": ["basics", "advanced", "baking"],
+    "workshop-preserves": ["crafts"]
+};
+
 export const categorizeExperiences = () => {
     const farmStays = [
         {

@@ -9,8 +9,6 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Para evitar problemas de hidratación, solo renderizamos el menú interactivo
-  // después de que el componente se haya montado en el cliente
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -32,7 +30,7 @@ function Navbar() {
               <a href="/" className="text-foreground/80 hover:text-foreground">Inicio</a>
               <a href="/services" className="text-foreground/80 hover:text-foreground">Servicios</a>
               <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galleria</a>
-              <a href="/contact" className="text-foreground/80 hover:text-foreground">Contacto</a>
+              <a href="/reservar" className="text-foreground/80 hover:text-foreground">Contacto</a>
               <Button>Reserva ahora!</Button>
               {/* Placeholder para ThemeSwitch */}
               <div className="h-9 w-9"></div>
@@ -62,7 +60,7 @@ function Navbar() {
             <a href="/" className="text-foreground/80 hover:text-foreground">Inicio</a>
             <a href="/services" className="text-foreground/80 hover:text-foreground">Servicios</a>
             <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galleria</a>
-            <a href="/contact" className="text-foreground/80 hover:text-foreground">Contacto</a>
+            <a href="/reservar" className="text-foreground/80 hover:text-foreground">Contacto</a>
             <Button>Reserva ahora!</Button>
             <ThemeSwitch />
           </div>

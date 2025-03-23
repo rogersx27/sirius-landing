@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { categorizeExperiences, getDescriptionForType, reservationTypes } from "@/components/reservation/constants/reservation-data";
+import { categorizeExperiences, getDescriptionForType, reservationTypes } from "@/constants/reservation-data";
 import { fadeIn, staggerContainer } from "@/app/page";
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
