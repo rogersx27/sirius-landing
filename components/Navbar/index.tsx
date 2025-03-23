@@ -18,7 +18,6 @@ function Navbar() {
     setMenuOpen(!menuOpen);
   };
 
-  // Versión estática para SSR inicial
   if (!isMounted) {
     return (
       <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-sm border-b">
@@ -46,7 +45,6 @@ function Navbar() {
     );
   }
 
-  // Versión interactiva para el cliente después del montaje
   return (
     <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
