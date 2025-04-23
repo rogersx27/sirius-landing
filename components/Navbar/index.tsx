@@ -29,7 +29,7 @@ function Navbar() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="/" className="text-foreground/80 hover:text-foreground">Inicio</a>
               <a href="/services" className="text-foreground/80 hover:text-foreground">Servicios</a>
-              <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galleria</a>
+              <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galeria</a>
               <a href="/reservar" className="text-foreground/80 hover:text-foreground">Contacto</a>
               <Button>Reserva ahora!</Button>
               {/* Placeholder para ThemeSwitch */}
@@ -58,10 +58,10 @@ function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-4">
             <a href="/" className="text-foreground/80 hover:text-foreground">Inicio</a>
-            <a href="/services" className="text-foreground/80 hover:text-foreground">Servicios</a>
-            <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galleria</a>
-            <a href="/reservar" className="text-foreground/80 hover:text-foreground">Contacto</a>
-            <Button>Reserva ahora!</Button>
+            <a href="/servicios" className="text-foreground/80 hover:text-foreground">Servicios</a>
+            <a href="/gallery" className="text-foreground/80 hover:text-foreground">Galeria</a>
+            <a href="/contacto" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Contacto</a>
+            <Button onClick={() => window.location.href = '/reservar'}>Reserva ahora!</Button>
             <ThemeSwitch />
           </div>
           <div className="md:hidden flex items-center">
@@ -86,9 +86,9 @@ function Navbar() {
       >
         <div className="px-2 pt-2 pb-3 space-y-1 bg-background border-b">
           <a href="/" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Inicio</a>
-          <a href="/services" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Servicios</a>
-          <a href="/gallery" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Galleria</a>
-          <a href="/contact" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Contacto</a>
+          <a href="/servicios" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Servicios</a>
+          <a href="/gallery" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Galeria</a>
+          <a href="/contacto" className="block px-3 py-2 text-foreground/80 hover:text-foreground">Contacto</a>
           <div className="px-3 py-2">
             <Button className="w-full">Reserva ahora!</Button>
           </div>

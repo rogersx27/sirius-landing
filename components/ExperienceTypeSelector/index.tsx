@@ -4,43 +4,43 @@ import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormLabel } from "@/components/ui/form";
 
-// Definición de tipos para TypeScript
+// Type definitions for TypeScript
 /**
  * @typedef {Object} ExperienceOption
- * @property {string} value - Valor único para la opción
- * @property {string} label - Texto descriptivo para la opción
- * @property {string} icon - SVG del icono como string
- * @property {string} [category] - Categoría a la que pertenece (opcional)
- * @property {string} [description] - Descripción adicional (opcional)
+ * @property {string} value - Unique value for the option
+ * @property {string} label - Descriptive text for the option
+ * @property {string} icon - SVG icon as string
+ * @property {string} [category] - Category it belongs to (optional)
+ * @property {string} [description] - Additional description (optional)
  */
 
 /**
  * @typedef {Object} Category
- * @property {string} id - Identificador único de la categoría
- * @property {string} label - Nombre de la categoría
+ * @property {string} id - Unique identifier for the category
+ * @property {string} label - Category name
  */
 
 /**
- * Componente selector de experiencias reutilizable
+ * Reusable experience selector component
  * 
- * @param {Object} props - Propiedades del componente
- * @param {ExperienceOption[]} props.options - Opciones disponibles
- * @param {Category[]} [props.categories] - Categorías para agrupar (opcional)
- * @param {string} props.value - Valor seleccionado actualmente
- * @param {Function} props.onChange - Función llamada al cambiar la selección
- * @param {string} [props.label] - Etiqueta del campo (opcional)
- * @param {string} [props.placeholder] - Texto cuando no hay selección (opcional)
- * @param {Object} [props.helpText] - Textos de ayuda por categoría (opcional)
- * @param {boolean} [props.required] - Si el campo es obligatorio (opcional)
- * @param {string} [props.className] - Clases CSS adicionales (opcional)
+ * @param {Object} props - Component properties
+ * @param {ExperienceOption[]} props.options - Available options
+ * @param {Category[]} [props.categories] - Categories for grouping (optional)
+ * @param {string} props.value - Currently selected value
+ * @param {Function} props.onChange - Function called when selection changes
+ * @param {string} [props.label] - Field label (optional)
+ * @param {string} [props.placeholder] - Text when no selection (optional)
+ * @param {Object} [props.helpText] - Help text by category (optional)
+ * @param {boolean} [props.required] - If the field is required (optional)
+ * @param {string} [props.className] - Additional CSS classes (optional)
  */
 const ExperienceTypeSelector = ({
     options,
     categories,
     value,
     onChange,
-    label = "Selecciona una opción",
-    placeholder = "Selecciona una opción",
+    label = "Select an option",
+    placeholder = "Select an option",
     helpText = {},
     required = false,
     className = "",
@@ -48,13 +48,13 @@ const ExperienceTypeSelector = ({
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    // Encontrar la opción seleccionada cuando cambia el valor
+    // Find the selected option when value changes
     useEffect(() => {
         if (value) {
             const option = options.find((opt) => opt.value === value);
             setSelectedOption(option || null);
 
-            // Determinar la categoría si existen categorías
+            // Determine the category if categories exist
             if (option && categories?.length) {
                 const category = categories.find((cat) =>
                     options.filter(opt => opt.category === cat.id)
@@ -68,12 +68,23 @@ const ExperienceTypeSelector = ({
         }
     }, [value, options, categories]);
 
-    // Manejar el cambio de selección
+    // Handle selection change
     const handleChange = (newValue) => {
         onChange(newValue);
     };
 
-    // Agrupar opciones por categoría si se proporcionan categorías
+    // Process SVG icons to ensure consistent sizing and prevent overflow
+    const processIconSvg = (svgString, width = 16, height = 16) => {
+        if (!svgString) return "";
+
+        // Normalize icon size
+        return svgString
+            .replace(/width="([^"]+)"/g, `width="${width}"`)
+            .replace(/height="([^"]+)"/g, `height="${height}"`)
+            .replace(/viewBox="([^"]+)"/g, (match) => match); // Preserve viewBox if exists
+    };
+
+    // Group options by category if categories are provided
     const getGroupedOptions = () => {
         if (!categories || categories.length === 0) {
             return { uncategorized: options };
@@ -81,12 +92,12 @@ const ExperienceTypeSelector = ({
 
         const grouped = {};
 
-        // Inicializar todas las categorías
+        // Initialize all categories
         categories.forEach(cat => {
             grouped[cat.id] = [];
         });
 
-        // Agrupar opciones
+        // Group options
         options.forEach(option => {
             const categoryId = option.category || "uncategorized";
 
@@ -117,12 +128,13 @@ const ExperienceTypeSelector = ({
             >
                 <SelectTrigger className="w-full">
                     {value ? (
-                        <div className="flex items-center truncate max-w-full">
+                        <div className="flex items-center space-x-2 truncate max-w-full">
                             {selectedOption?.icon && (
                                 <span
-                                    className="mr-2 flex-shrink-0"
+                                    className="flex-shrink-0 inline-flex items-center justify-center"
+                                    style={{ minWidth: '14px', minHeight: '14px' }}
                                     dangerouslySetInnerHTML={{
-                                        __html: selectedOption.icon.replace(/width="([^"]+)"/, 'width="14"').replace(/height="([^"]+)"/, 'height="14"')
+                                        __html: processIconSvg(selectedOption.icon, 14, 14)
                                     }}
                                 />
                             )}
@@ -137,59 +149,69 @@ const ExperienceTypeSelector = ({
 
                 <SelectContent>
                     {categories && categories.length > 0 ? (
-                        // Renderizar opciones agrupadas por categoría
+                        // Render options grouped by category
                         categories.map((category, index) => (
                             <div key={category.id}>
-                                {/* Separador excepto en la primera categoría */}
+                                {/* Separator except for the first category */}
                                 {index > 0 && (
                                     <div className="px-1 pt-2 mt-1 border-t"></div>
                                 )}
 
-                                {/* Título de la categoría */}
+                                {/* Category title */}
                                 <div className="px-1 py-1.5 text-sm font-medium text-muted-foreground">
                                     {category.label}
                                 </div>
 
-                                {/* Opciones de esta categoría */}
+                                {/* Options in this category */}
                                 {groupedOptions[category.id]?.map((option) => (
                                     <SelectItem
                                         key={option.value}
                                         value={option.value}
-                                        className="flex items-center"
+                                        className="flex items-center py-1.5"
                                     >
-                                        {option.icon && (
-                                            <span
-                                                className="mr-2"
-                                                dangerouslySetInnerHTML={{ __html: option.icon }}
-                                            />
-                                        )}
-                                        {option.label}
+                                        <div className="flex items-center w-full">
+                                            {option.icon && (
+                                                <span
+                                                    className="mr-2 flex-shrink-0 inline-flex items-center justify-center"
+                                                    style={{ minWidth: '16px', minHeight: '16px' }}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: processIconSvg(option.icon, 16, 16)
+                                                    }}
+                                                />
+                                            )}
+                                            <span className="truncate">{option.label}</span>
+                                        </div>
                                     </SelectItem>
                                 ))}
                             </div>
                         ))
                     ) : (
-                        // Renderizar opciones sin categorías
+                        // Render options without categories
                         options.map((option) => (
                             <SelectItem
                                 key={option.value}
                                 value={option.value}
-                                className="flex items-center"
+                                className="flex items-center py-1.5"
                             >
-                                {option.icon && (
-                                    <span
-                                        className="mr-2"
-                                        dangerouslySetInnerHTML={{ __html: option.icon }}
-                                    />
-                                )}
-                                {option.label}
+                                <div className="flex items-center w-full">
+                                    {option.icon && (
+                                        <span
+                                            className="mr-2 flex-shrink-0 inline-flex items-center justify-center"
+                                            style={{ minWidth: '16px', minHeight: '16px' }}
+                                            dangerouslySetInnerHTML={{
+                                                __html: processIconSvg(option.icon, 16, 16)
+                                            }}
+                                        />
+                                    )}
+                                    <span className="truncate">{option.label}</span>
+                                </div>
                             </SelectItem>
                         ))
                     )}
                 </SelectContent>
             </Select>
 
-            {/* Texto de ayuda según el tipo seleccionado */}
+            {/* Help text based on the selected type */}
             {selectedCategory && helpText[selectedCategory.id] && (
                 <p className="text-sm text-muted-foreground">
                     {helpText[selectedCategory.id]}

@@ -19,29 +19,28 @@ import { courseFormSchema, stayFormSchema } from "@/lib/formValidations";
 import ExperienceTypeSelector from "@/components/ExperienceTypeSelector";
 import { experienceOptions, experienceCategories, helpTextByCategory, reservationTypes, activitiesByType, additionalServices } from "@/constants/reservation-data";
 
-function ReservationTypeSelect() {
+function ReservationTypeSelect({ currentType, onTypeChange }) {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const typeParam = searchParams.get("type") || "stay";
 
-    const [selectedType, setSelectedType] = useState(typeParam);
+    // Determine if it's a course or stay based on selection
+    const isCourse = currentType.includes("workshop") || currentType === "culinary";
 
-    // Determinar si es curso o estancia basado en la selección
-    const isCourse = selectedType.includes("workshop") || selectedType === "culinary";
-
-    // Manejar cambio de tipo de experiencia
+    // Handle experience type change
     const handleTypeChange = useCallback((value) => {
-        setSelectedType(value);
-        // Actualizar URL con el nuevo tipo
+        // Call the parent component's handler to update main state
+        onTypeChange(value);
+
+        // Update URL with new type
         router.push(`/reservar?type=${value}`, { scroll: false });
-    }, [router]);
+    }, [router, onTypeChange]);
 
     return (
-        <div className="mb-8">
+        // Improved responsive container with better padding on different screens
+        <div className="mb-6 sm:mb-8">
             <ExperienceTypeSelector
                 options={experienceOptions}
                 categories={experienceCategories}
-                value={selectedType}
+                value={currentType}
                 onChange={handleTypeChange}
                 label="Selecciona tu tipo de experiencia"
                 placeholder="Selecciona un tipo"
@@ -49,15 +48,15 @@ function ReservationTypeSelect() {
                 required={true}
             />
 
-            {/* Contenido adicional que cambia según el tipo seleccionado */}
-            <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                <h3 className="text-lg font-medium mb-2">
+            {/* Additional content that changes based on selected type */}
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-muted/50 rounded-lg">
+                <h3 className="text-base sm:text-lg font-medium mb-1 sm:mb-2">
                     {isCourse
                         ? "Información del curso seleccionado"
                         : "Información de la estancia seleccionada"}
                 </h3>
-                <p className="text-muted-foreground">
-                    {experienceOptions.find(opt => opt.value === selectedType)?.description ||
+                <p className="text-sm sm:text-base text-muted-foreground">
+                    {experienceOptions.find(opt => opt.value === currentType)?.description ||
                         "Selecciona una opción para ver más detalles."}
                 </p>
             </div>
@@ -75,13 +74,13 @@ export default function ReservationForm() {
     const [step, setStep] = useState(1);
     const [summaryData, setSummaryData] = useState(null);
 
-    // Determinar si es un curso o una estancia
+    // Determine if it's a course or a stay
     const isCourse = ["workshop", "culinary", "workshop-organic", "workshop-preserves"].includes(reservationType);
 
-    // Encontrar el tipo de reserva actual
+    // Find current reservation type
     const currentReservationType = reservationTypes.find(type => type.id === reservationType) || reservationTypes[0];
 
-    // Obtener las actividades disponibles para este tipo
+    // Get available activities for this type
     const availableActivities =
         isCourse
             ? [
@@ -91,10 +90,10 @@ export default function ReservationForm() {
             ]
             : activitiesByType[reservationType] || [];
 
-    // Usar el esquema adecuado según el tipo
+    // Use appropriate schema based on type
     const formSchema = isCourse ? courseFormSchema : stayFormSchema;
 
-    // Inicializar el formulario
+    // Initialize form
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: isCourse
@@ -119,7 +118,7 @@ export default function ReservationForm() {
             }
     });
 
-    // Cambiar los valores predeterminados cuando cambia el tipo
+    // Change default values when type changes
     useEffect(() => {
         if (isCourse) {
             form.reset({
@@ -145,39 +144,39 @@ export default function ReservationForm() {
         }
     }, [reservationType, isCourse, form]);
 
-    // Usar useCallback para evitar recrear funciones en cada render
+    // Use useCallback to avoid recreating functions on each render
     const handleSubmit = useCallback(async (data) => {
         setIsSubmitting(true);
 
-        // Aquí normalmente enviarías los datos a tu API
-        console.log("Datos del formulario:", data);
+        // Here you would normally send data to your API
+        console.log("Form data:", data);
 
-        // Simulamos un envío
+        // Simulate submission
         setTimeout(() => {
             setIsSubmitting(false);
             setSummaryData(data);
-            setStep(2); // Avanzar al paso de confirmación
+            setStep(2); // Move to confirmation step
         }, 1500);
     }, []);
 
-    // Volver al formulario desde el resumen
+    // Go back to form from summary
     const handleBackToForm = useCallback(() => {
         setStep(1);
     }, []);
 
-    // Finalizar el proceso
+    // Finish process
     const handleFinish = useCallback(() => {
         router.push("/reserva-confirmada");
     }, [router]);
 
-    // Cambiar el tipo de reserva - con useCallback
+    // Change reservation type - with useCallback
     const handleReservationTypeChange = useCallback((value) => {
         setReservationType(value);
-        // Actualizamos el tipo en la URL
+        // Update type in URL
         router.push(`/reservar?type=${value}`, { scroll: false });
     }, [router]);
 
-    // Memoizar la función de cálculo de precio
+    // Memoize price calculation function
     const priceCalculator = useCallback((data) => {
         return calculateReservationPrice(
             data,
@@ -189,37 +188,44 @@ export default function ReservationForm() {
     }, [isCourse, currentReservationType, availableActivities, additionalServices]);
 
     return (
-        <div className="container mx-auto py-12 px-4">
-            <div className="max-w-3xl mx-auto">
-                {/* Cabecera */}
-                <FormHeader
-                    isCourse={isCourse}
-                    returnUrl="/experiencias"
+        // Improved responsive container with better padding on different screens
+        <div className="container mx-auto py-6 sm:py-8 md:py-12 px-4 sm:px-6">
+            {/* Better max-width for different screen sizes */}
+            <div className="w-full max-w-xl sm:max-w-2xl md:max-w-3xl mx-auto">
+                {/* Header with additional top margin to prevent navbar overlap */}
+                <div className="mt-16 sm:mt-20 md:mt-24">
+                    <FormHeader
+                        isCourse={isCourse}
+                        returnUrl="/experiencias"
+                    />
+                </div>
+
+                {/* Reservation type selector - Pass state and handler from parent */}
+                <ReservationTypeSelect
+                    currentType={reservationType}
+                    onTypeChange={handleReservationTypeChange}
                 />
 
-                {/* Selector de tipo de reserva */}
-                <ReservationTypeSelect />
-
-                {/* Cambiar el tipo de reserva */}
+                {/* Change reservation type */}
                 {step === 1 ? (
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>
+                    <Card className="shadow-sm sm:shadow">
+                        <CardHeader className="pb-4 sm:pb-6">
+                            <CardTitle className="text-xl sm:text-2xl">
                                 {isCourse
                                     ? `Inscripción: ${currentReservationType.name}`
                                     : `Reserva: ${currentReservationType.name}`}
                             </CardTitle>
-                            <CardDescription>
+                            <CardDescription className="text-sm sm:text-base">
                                 Por favor completa todos los campos requeridos
                             </CardDescription>
                         </CardHeader>
 
                         <CardContent>
-                            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-                                {/* Información personal - Componente reutilizable */}
+                            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 sm:space-y-6">
+                                {/* Personal information - Reusable component */}
                                 <PersonalInfoForm form={form} />
 
-                                {/* Detalles específicos según tipo */}
+                                {/* Type-specific details */}
                                 {isCourse ? (
                                     <CourseDetailsForm
                                         form={form}
@@ -233,8 +239,13 @@ export default function ReservationForm() {
                                     />
                                 )}
 
-                                <div className="flex justify-end">
-                                    <Button type="submit" disabled={isSubmitting}>
+                                {/* Responsive button container, full width on mobile */}
+                                <div className="flex justify-center sm:justify-end pt-2 sm:pt-4">
+                                    <Button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full sm:w-auto"
+                                    >
                                         {isSubmitting ? "Procesando..." : "Continuar"}
                                     </Button>
                                 </div>

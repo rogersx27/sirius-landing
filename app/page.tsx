@@ -5,37 +5,37 @@ import { useRef, memo } from "react";
 import dynamic from "next/dynamic";
 
 const HeroSection = dynamic(() => import("@/components/Hero"), {
-  loading: () => <div className="min-h-[50vh] flex items-center justify-center">Loading...</div>,
+  loading: () => <div className="min-h-[50vh] flex items-center justify-center">Cargando...</div>,
   ssr: true
 });
 
 const FeaturesSection = dynamic(() => import("@/components/Features"), {
-  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Loading...</div>,
-  ssr: true
+  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Cargando...</div>,
+  ssr: true,
 });
 
 const CTASection = dynamic(() => import("@/components/CTASection/CTASection"), {
-  loading: () => <div className="min-h-[30vh] flex items-center justify-center">Loading...</div>,
+  loading: () => <div className="min-h-[30vh] flex items-center justify-center">Cargando...</div>,
   ssr: false // Non-critical component can be loaded client-side only
 });
 
 const ExperiencesSection = dynamic(() => import("@/components/ExperiencesSection/ExperiencesSection"), {
-  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Loading...</div>,
+  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Cargando...</div>,
   ssr: true
 });
 
 const GallerySection = dynamic(() => import("@/components/GallerySection/GallerySection"), {
-  loading: () => <div className="min-h-[50vh] flex items-center justify-center">Loading...</div>,
+  loading: () => <div className="min-h-[50vh] flex items-center justify-center">Cargando...</div>,
   ssr: false // Images can be loaded client-side to improve initial load time
 });
 
 const LocationSection = dynamic(() => import("@/components/LocationSection/LocationSection"), {
-  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Loading...</div>,
+  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Cargando...</div>,
   ssr: false // Map data can be loaded client-side
 });
 
 const TestimonialsSection = dynamic(() => import("@/components/TestimonialsSection/TestimonialsSection"), {
-  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Loading...</div>,
+  loading: () => <div className="min-h-[40vh] flex items-center justify-center">Cargando...</div>,
   ssr: true
 });
 

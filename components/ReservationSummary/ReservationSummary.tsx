@@ -136,7 +136,7 @@ export default function ReservationSummary({
                                                     const servicio = additionalServices.find(s => s.id === servicioId);
                                                     return (
                                                         <li key={servicioId}>
-                                                            {servicio ? servicio.name : servicioId} {servicio && <span className="text-muted-foreground text-sm">(+{servicio.price}€)</span>}
+                                                            {servicio ? servicio.name : servicioId} {servicio && <span className="text-muted-foreground text-sm">(+{servicio.price}$)</span>}
                                                         </li>
                                                     );
                                                 })}
@@ -163,7 +163,7 @@ export default function ReservationSummary({
                     <div className="bg-muted p-4 rounded-lg">
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-muted-foreground">Precio base:</span>
-                            <span>{currentReservationType.basePrice}€</span>
+                            <span>{currentReservationType.basePrice}$</span>
                         </div>
 
                         {!isCourse && summaryData.fechaLlegada && summaryData.fechaSalida && (
@@ -176,7 +176,7 @@ export default function ReservationSummary({
                         {!isCourse && summaryData.serviciosAdicionales && summaryData.serviciosAdicionales.length > 0 && (
                             <div className="flex justify-between items-center mb-2">
                                 <span className="text-muted-foreground">Servicios adicionales:</span>
-                                <span>+{additionalServicesTotal}€</span>
+                                <span>+{additionalServicesTotal}$</span>
                             </div>
                         )}
 
@@ -184,7 +184,7 @@ export default function ReservationSummary({
 
                         <div className="flex justify-between items-center font-semibold text-lg mt-3">
                             <span>Total:</span>
-                            <span>{calculatePrice ? calculatePrice(summaryData) : 0}€</span>
+                            <span>{calculatePrice ? calculatePrice(summaryData) : 0}$</span>
                         </div>
                     </div>
                 </div>

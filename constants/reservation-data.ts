@@ -251,11 +251,11 @@ export const availableDates: Record<string, DateAvailability[]> = {
 
 // Define additional services
 export const additionalServices: AdditionalService[] = [
-    { id: "transport", name: "Transporte", price: 50 },
-    { id: "guided", name: "Visita Guiada", price: 35 },
-    { id: "meal", name: "Paquete Especial de Comidas", price: 75 },
-    { id: "spa", name: "Tratamiento de Spa", price: 120 },
-    { id: "photography", name: "Servicio de Fotografía", price: 200 },
+    { id: "transport", name: "Transporte", price: 50000 },
+    { id: "guided", name: "Visita Guiada", price: 35000 },
+    { id: "meal", name: "Paquete Especial de Comidas", price: 75000 },
+    { id: "spa", name: "Tratamiento de Spa", price: 120000 },
+    { id: "photography", name: "Servicio de Fotografía", price: 200000 },
 ]
 
 // Define coupon codes
